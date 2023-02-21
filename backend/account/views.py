@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 from rest_framework.permissions import AllowAny
 from .models import User
