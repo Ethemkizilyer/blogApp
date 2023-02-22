@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken,BlacklistedToken,OutstandingToken
 from rest_framework.response import Response
@@ -10,17 +9,13 @@ from rest_framework.permissions import AllowAny
 from .models import User
 from .serializers import RegisterSerializer,ChangePasswordSerializer,UpdateUserSerializer
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken,BlacklistedToken,OutstandingToken
-from rest_framework.response import Response
-from rest_framework import status
 
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
+                                           
 
 
 class ChangePasswordView(generics.UpdateAPIView):
@@ -37,6 +32,7 @@ class UpdateProfileView(generics.UpdateAPIView):
     
 
 
+
 class LogoutView(APIView):
     permission_classes = (IsAuthenticated,)
 
@@ -49,6 +45,7 @@ class LogoutView(APIView):
             return Response(status=status.HTTP_205_RESET_CONTENT)
         except Exception as e:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
         
 class LogoutAllView(APIView):
     permission_classes = (IsAuthenticated,)
@@ -59,3 +56,10 @@ class LogoutAllView(APIView):
             t, _ = BlacklistedToken.objects.get_or_create(token=token)
 
         return Response(status=status.HTTP_205_RESET_CONTENT)
+    
+
+class ProfileUser(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UpdateUserSerializer
+    def get_queryset(self):                                            # added string
+        return super().get_queryset().filter(pk=self.request.user.pk)   # added string

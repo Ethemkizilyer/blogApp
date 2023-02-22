@@ -61,9 +61,19 @@ MIDDLEWARE = [
 AUTH_USER_MODEL ='account.User'
 #!!!!!!!
 
+#!SİMPLE JWT
+
+SIMPLE_JWT = {
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False
+}
+
+#!SİMPLE  JWT
+
 #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!  Cors Settings
 CORS_ALLOWED_ORIGINS = [
-    "https://localhost:3000",
+    "http://localhost:3000",
 ]
 
 # CORS_ALLOWED_ORIGINS = [
@@ -72,7 +82,7 @@ CORS_ALLOWED_ORIGINS = [
 
 CSRF_TRUSTED_ORIGINS = [
     #  'localhost:3000',
-     "https://localhost:3000",
+     "http://localhost:3000",
  ]
 
 CORS_ALLOW_CREDENTIALS = True
