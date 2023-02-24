@@ -81,4 +81,59 @@ export const fetchUser=async(a)=>{
     
 }
 
+export const passUpdate=async(data)=>{
+    try {
+        await fetch(`http://127.0.0.1:8000/auth/change_password/${data?.id}/`,
+        {
+            method: "PUT",
+            body: JSON.stringify({
+                "old_password": data.old_password,
+                "password": data.password,
+                "password2": data.password2
+            }),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": `Bearer ${data.access}`
+            }
 
+        }
+        ).then(res=>res.json()).then(data=>console.log(data))
+    } catch (error) {
+        console.log(error.message)
+    }
+}
+
+export const getCategory=async()=>{
+    try {
+     const data =await fetch("http://127.0.0.1:8000/api/categories/").then(res=>res.json()).then(data=>data)
+     return data
+    } catch (error) {
+        console.log(error)
+    }
+
+    
+}
+
+export const createBlog=async(data)=>{
+    const url="http://127.0.0.1:8000/api/blogs/"
+
+    try {
+      const dataBlog=  await fetch(url,{
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": `Bearer ${data.access}`
+            }
+        }).then(res=>res.json()).then(data=>console.log(data));
+        return dataBlog
+    } catch (error) {
+        
+    }
+
+    
+}
+export const getBlog=async()=>{
+  const data=  await fetch("http://127.0.0.1:8000/api/blogs/").then(res=>res.json()).then(data=>data);
+  return data
+}
